@@ -14,7 +14,6 @@
 export default function fetchCountries(searchQuery) {
   return fetch(`https://restcountries.com/v3.1/name/${searchQuery}`)
     .then(response => response.json())
-    .catch(error => console.error(error));
     // .then(data => {
     //   console.log(data);
       //   const countryInfo = data[0];
