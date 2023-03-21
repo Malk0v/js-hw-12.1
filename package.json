@@ -23,15 +23,19 @@
   "dependencies": {
     "@parcel/transformer-sass": "^2.6.0",
     "gh-pages": "^5.0.0",
+    "lodash.debounce": "^4.0.8",
     "modern-normalize": "^1.1.0",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-transformer-handlebars": "^1.0.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
+    "buffer": "^5.7.1",
     "parcel": "^2.8.3",
     "parcel-plugin-nuke-dist": "^1.0.1",
     "parcel-reporter-clean-dist": "^1.0.4",
-    "posthtml-include": "^1.7.4"
+    "pnotify": "^5.2.0",
+    "posthtml-include": "^1.7.4",
+    "util": "^0.12.5"
   }
 }

@@ -1,4 +1,3 @@
-
 // Достаточно чтобы приложение работало для большинства стран. Некоторые страны,
 // такие как `Sudan`, могут создавать проблемы, поскольку название страны является
 // частью названия другой страны, `South Sudan`. Не нужно беспокоиться об этих
@@ -33,44 +32,72 @@
 
 // ![информация о стране](assets/country-info.png)
 
-
 //=======================================
+import style from './sass/main.scss';
+//импорт данных с бекэнда
+import fetchCountries from './js/fetchCountries';
+// урезает количество запросов 
+import debounce from 'lodash.debounce';
+// библиотека уведомлений
+import {
+  alert,
+  defaultModules,
+} from '../node_modules/@pnotify/core/dist/PNotify.js';
+import * as PNotifyMobile from '../node_modules/@pnotify/mobile/dist/PNotifyMobile.js';
+defaultModules.set(PNotifyMobile, {});
+// стили для библитеки уведомлений
+import '@pnotify/core/dist/Material.css';
 
-// import fetchCountries from "./js/fetchCountries";
-// const input = document.querySelector('.input-js');
-// const start = document.querySelector('.start-js');
-// const list = document.querySelector('.list-js');
+const input = document.querySelector('.input-js');
+let list = document.querySelector('.list-js');
 
-// console.log(fetchCountries);
+input.addEventListener('input', debounce(onSearch, 500));
 
-// input.addEventListener('click', onSearch);
-// start.addEventListener('click',onSearch);
+function onSearch() {
+    list.innerHTML = '';
+    const searchQuery = input.value;
+    const fetchQuery = fetchCountries(searchQuery);
 
-// function onSearch(e) {
-//     e.preventDefault();
+  fetchQuery.then(data => {
+      if (data.length >= 10) {
+        alert({
+          text: 'Необходимо сделать запрос более специфичным',
+          styling: 'material',
+          type: 'notice',
+          mode: 'dark',
+          delay: 3000,
+        });
+      return;
+    }
 
-//     const searchQuery = input.value;
-    
-//     fetchCountries(searchQuery).then(data => {
-//         const headlines = data.articles
-//         .map(article => {
-//             return console.log(article);
-
-//             `<div class="news">
-//         <h2><span>Тема: </span>${article.title}</h2> 
-//         <li>${article.description}
-//         <hr>
-//         Источник - ${article.author}</li>
-//         </div>`;
-//         })
-//             .join('');
-        
-
-//         list.innerHTML = `<ul>${headlines}</ul>`;
-//     });
-// };
-
-const a = fetch(
-    `https://restcountries.eu/rest/v2/name/usa`,
-    // `https://newsapi.org/v2/everything?q=$.{searchQuery}&apiKey=${API_KEY}`,
-).then(response => response.json()).then(console.log(response));
+    fetchQuery.then(data => {
+      if (data.length === 1) {
+        data.map(e =>
+          list.insertAdjacentHTML(
+            'beforeend',
+            `<img src="${e.flags.png}" alt="${e.flags.alt}" width="350px">
+            <div>
+                <li class="js-li"> Официальное название - ${e.name.common} </li>
+                <li class="js-li"> Столица - ${e.capital} </li>
+                <li class="js-li"> Флаг - ${e.flag} </li>
+                <li class="js-li"> Население - ${e.population} </li> 
+            </div>`,
+          ),
+        );
+      } else {
+        fetchQuery.then(data =>
+          data.map(e =>
+            list.insertAdjacentHTML(
+              'beforeend',
+                `<div>
+              <li class="js-li">
+              ${e.name.common} ${e.flag} 
+              </li>
+              </div>`,
+            ),
+          ),
+        );
+      }
+    });
+  });
+};

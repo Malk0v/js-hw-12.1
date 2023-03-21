@@ -64,9 +64,15 @@ border: 0.3px solid rgb(70, 6, 6);
 border-radius: 4px;
 }
 
+.js-li{
+display: flex;
+flex-direction:column;
+}
+
 .div-a-center{
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
