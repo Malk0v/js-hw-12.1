@@ -14,11 +14,5 @@
 export default function fetchCountries(searchQuery) {
   return fetch(`https://restcountries.com/v3.1/name/${searchQuery}`)
     .then(response => response.json())
-    // .then(data => {
-    //   console.log(data);
-      //   const countryInfo = data[0];
-      //   console.log(`Название страны: ${countryInfo.name.common}`);
-      //   console.log(`Столица: ${countryInfo.capital}`);
-      //   console.log(`Код страны: ${countryInfo.cca2}`);
 }
-//     )
+
